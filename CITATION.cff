@@ -26,7 +26,7 @@ references:
     year: 2026
     institution:
       name: "Partnership for Economic Policy (PEP)"
-    notes: "Technical note, September 2026 (doc/msat_note.pdf)"
+    notes: "Technical note, September 2026 (msat_note.pdf)"
   - type: article
     title: "Estimating Treatment Effects under Selection on Gains: Models, Assumptions, and Policy Implications"
     authors:

@@ -27,7 +27,7 @@ help msat
 ## Example
 
 ```stata
-use esr_sim, clear                       // from net get, or validation/esr_sim.dta
+use esr_sim, clear                       // fetched by net get (see Installation)
 movestay y x, select(d = x z)
 msat d                                   // ATT, ATU, ATE, kappa
 msat d, rank(x) nq(10) graph             // effect curves by decile of x
@@ -49,8 +49,9 @@ bootstrap att=r(att) atu=r(atu) ate=r(ate) kappa=r(kappa), reps(200): ///
 | `msat.ado`, `msat.sthlp` | the command and its help file |
 | `_msat_one.ado` | bootstrap helper: re-estimates `movestay` and recomputes the effects on each resample |
 | `_msat_pwr.ado` | private percentile-weights-regression engine used by `semipar` (derived from `gepwreg` 1.4; not meant to be called directly) |
-| `validation/` | four simulated datasets with known parameters and the do-files that reproduce the checks (`msat_validate.do`, `msat13_test.do`, `msat_semipar.do`) |
-| `doc/msat_note.pdf` | the technical note: model, estimands, the two routes, standard errors, heterogeneity, Monte Carlo and illustrations |
+| `esr_*.dta` | four simulated datasets with known parameters (see below) |
+| `msat_validate.do`, `msat13_test.do`, `msat_semipar.do` | do-files that reproduce the validation checks on those datasets |
+| `msat_note.pdf` | the technical note: model, estimands, the two routes, standard errors, heterogeneity, Monte Carlo and illustrations |
 
 ## Validation datasets
 
@@ -63,7 +64,7 @@ bootstrap att=r(att) atu=r(atu) ate=r(ate) kappa=r(kappa), reps(200): ///
 
 ## Citation
 
-Araar, A. (2026). *Treatment Effects after Endogenous Switching Regression: the msat Command.* PEP technical note (doc/msat_note.pdf). Software: https://github.com/aabbdd12/msat.
+Araar, A. (2026). *Treatment Effects after Endogenous Switching Regression: the msat Command.* PEP technical note (msat_note.pdf in this repository). Software: https://github.com/aabbdd12/msat.
 
 The semiparametric engine implements the percentile-weights regression of Araar, A. (2026), *Exploring Heterogeneous Effects: Quantile Models and Percentile Weights Regression*, Zenodo, https://doi.org/10.5281/zenodo.20315684 (Stata command `gepwreg`).
 

@@ -23,10 +23,10 @@ f msat.ado
 f msat.sthlp
 f _msat_one.ado
 f _msat_pwr.ado
-f validation/msat_validate.do
-f validation/msat13_test.do
-f validation/msat_semipar.do
-f validation/esr_sim.dta
-f validation/esr_annex2.dta
-f validation/esr_skew.dta
-f validation/esr_nonlin.dta
+f msat_validate.do
+f msat13_test.do
+f msat_semipar.do
+f esr_sim.dta
+f esr_annex2.dta
+f esr_skew.dta
+f esr_nonlin.dta
