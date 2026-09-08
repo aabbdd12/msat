@@ -18,8 +18,8 @@ From Stata 12 or later:
 
 ```stata
 ssc install movestay                     // required
-net install msat, from("https://raw.githubusercontent.com/aabbdd12/msat/main/") replace
-net get msat, from("https://raw.githubusercontent.com/aabbdd12/msat/main/")   // validation datasets and do-files (optional)
+net install msat, from("https://raw.githubusercontent.com/aabbdd12/msat/main/") replace force
+net get msat, from("https://raw.githubusercontent.com/aabbdd12/msat/main/") replace   // validation datasets and do-files (optional)
 discard
 help msat
 ```
