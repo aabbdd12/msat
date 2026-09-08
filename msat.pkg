@@ -1,0 +1,32 @@
+v 3
+d msat: treatment effects after endogenous switching regression
+d
+d msat is a post-estimation command for movestay (Lokshin and Sajaia 2004).
+d It returns the four conditional expectations, the ATT, ATU and ATE with
+d delta-method standard errors, the selection-on-gains parameter
+d kappa = rho1*sigma1 - rho0*sigma0 with its Wald test, the expected-effect
+d curves by quantile of a ranking variable, the marginal treatment effect
+d with common-support flags, a two-step re-estimation of the model
+d (twostep) and a semiparametric MTE by percentile-weights regression on
+d the probit score (semipar). Survey weights (svyset) and household size
+d are handled in every average.
+d
+d Requires: Stata 12 or later; movestay (ssc install movestay).
+d
+d Distribution-Date: 20260908
+d Version: 1.3.1
+d
+d Author: Abdelkrim Araar, Universite Laval and Partnership for Economic Policy (PEP)
+d Support: abdelkrimaraar@gmail.com
+d
+f msat.ado
+f msat.sthlp
+f _msat_one.ado
+f _msat_pwr.ado
+f validation/msat_validate.do
+f validation/msat13_test.do
+f validation/msat_semipar.do
+f validation/esr_sim.dta
+f validation/esr_annex2.dta
+f validation/esr_skew.dta
+f validation/esr_nonlin.dta

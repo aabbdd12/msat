@@ -1,0 +1,4 @@
+v 3
+d msat: treatment effects after endogenous switching regression (movestay)
+d Abdelkrim Araar, Universite Laval and PEP
+p msat msat: ATT, ATU, ATE, kappa, MTE (parametric and semiparametric) after movestay

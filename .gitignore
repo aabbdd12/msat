@@ -1,0 +1,15 @@
+# Stata
+*.log
+*.smcl
+*.gph
+*.png
+*.tmp
+~$*
+# LaTeX build files (the PDF in doc/ is kept)
+*.aux
+*.out
+*.toc
+*.synctex.gz
+# OS
+.DS_Store
+Thumbs.db
