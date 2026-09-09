@@ -1,6 +1,6 @@
 # msat — treatment effects after endogenous switching regression
 
-`msat` is a Stata post-estimation command for `movestay` (Lokshin and Sajaia 2004).
+`msat` is a Stata post-estimation command for `movestay` (Lokshin and Sajaia 2004), either the Stata Journal build (st0071_2) or the later build on SSC; version 1.3.2 reads both.
 After an endogenous switching regression it returns
 
 - the four conditional expectations E[Y_j | D] and the ATT, ATU and ATE with delta-method standard errors (parameter uncertainty plus the sampling component);
@@ -17,7 +17,7 @@ Survey weights (`svyset`) and household size (`hsize()`) enter every average.
 From Stata 12 or later:
 
 ```stata
-ssc install movestay                     // required
+net install st0071_2, from(http://www.stata-journal.com/software/sj5-3)   // movestay (Lokshin and Sajaia 2004); ssc install movestay also works
 net install msat, from("https://raw.githubusercontent.com/aabbdd12/msat/main/") replace force
 net get msat, from("https://raw.githubusercontent.com/aabbdd12/msat/main/") replace   // validation datasets and do-files (optional)
 discard
@@ -64,7 +64,7 @@ bootstrap att=r(att) atu=r(atu) ate=r(ate) kappa=r(kappa), reps(200): ///
 
 ## Citation
 
-Araar, A. (2026). *Treatment Effects after Endogenous Switching Regression: the msat Postestimation Command.* PEP technical note (msat_note.pdf in this repository). Software: https://github.com/aabbdd12/msat.
+Araar, A. (2026). *Treatment Effects after Endogenous Switching Regression: the msat Postestimation Command.* PEP technical note, Zenodo, https://doi.org/10.5281/zenodo.22673090 (msat_note.pdf in this repository). Software: https://github.com/aabbdd12/msat.
 
 The semiparametric engine implements the percentile-weights regression of Araar, A. (2026), *Exploring Heterogeneous Effects: Quantile Models and Percentile Weights Regression*, Zenodo, https://doi.org/10.5281/zenodo.20315684 (Stata command `gepwreg`).
 

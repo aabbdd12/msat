@@ -1,5 +1,5 @@
 {smcl}
-{* *! version 1.3.1  08sep2026}{...}
+{* *! version 1.3.2  09sep2026}{...}
 {vieweralsosee "movestay" "help movestay"}{...}
 {vieweralsosee "mspredict" "help mspredict"}{...}
 {vieweralsosee "" "--"}{...}
@@ -485,6 +485,11 @@ Universit{c e'} Laval and Partnership for Economic Policy (PEP){break}
 abdelkrimaraar@gmail.com
 
 {pstd}
-Version 1.3.1, September 2026. Results differ from version 1.0 (April 2015):
+Version 1.3.2, September 2026. {cmd:msat} reads the results of either build
+of {cmd:movestay}: the Stata Journal build (st0071_2, version 2.0.0, ancillary
+parameters lns1 lns2 r1 r2 with index 1 the treated regime, selection
+equation named after the treatment variable) and the later build (lns0 lns1
+r0 r1, equation "select"); regime 0 is always the untreated regime in the
+output. Results differ from version 1.0 (April 2015):
 the two counterfactual expectations now follow Lokshin and Sajaia (2004,
 eqs 6 and 7), and standard errors include parameter-estimation uncertainty.

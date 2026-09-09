@@ -11,10 +11,11 @@ d (twostep) and a semiparametric MTE by percentile-weights regression on
 d the probit score (semipar). Survey weights (svyset) and household size
 d are handled in every average.
 d
-d Requires: Stata 12 or later; movestay (ssc install movestay).
+d Requires: Stata 12 or later; movestay (Lokshin and Sajaia; net install st0071_2,
+d from(http://www.stata-journal.com/software/sj5-3), or ssc install movestay).
 d
-d Distribution-Date: 20260908
-d Version: 1.3.1
+d Distribution-Date: 20260909
+d Version: 1.3.2
 d
 d Author: Abdelkrim Araar, Universite Laval and Partnership for Economic Policy (PEP)
 d Support: abdelkrimaraar@gmail.com

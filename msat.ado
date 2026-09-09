@@ -1,8 +1,7 @@
-*! version 1.3.1  Araar, Abdelkrim  2026sep08
+*! version 1.3.2  Araar, Abdelkrim  2026sep09
 *! a movestay postcommand: ATT, ATU, ATE, kappa and MTE with delta-method
 *! standard errors; expected-effect curves along the quantiles of a ranking
 *! variable.
-*! https://github.com/aabbdd12/msat
 *!
 *! Changes from 1.0.0 (2015):
 *!   - conditional expectations follow Lokshin & Sajaia (2004) eqs (5)-(8)
@@ -38,6 +37,11 @@
 *!   - 1.3.1: the semiparametric results are kept for the graph (return matrix
 *!            moved after the graph); engine renamed _msat_pwr to avoid any
 *!            collision with the user's gepwreg.
+*!   - 1.3.2: supports both movestay naming conventions: the Stata Journal
+*!            build (st0071_2, v2.0.0: equations <y>_1 <y>_0, ancillary
+*!            lns1 lns2 r1 r2 with index 1 = treated regime, selection
+*!            equation named after the treatment variable) and the later
+*!            build (<y>0 <y>1, lns0 lns1 r0 r1, equation "select").
 *!
 *! Syntax:  msat treatvar [if] [in] [, hsize(varname) expand(yes)
 *!               nose step(#) level(#) generate(newvar)
@@ -81,23 +85,44 @@ program define msat, rclass
     local mwt
     if ("`wtype'" != "") local mwt "[`wtype'`wexp']"
 
-    * variable lists of the three equations, from the column names of e(b)
-    local eq0 : word 1 of `depv'
-    local eq1 : word 2 of `depv'
+    * movestay naming conventions (both supported):
+    *  (a) Stata Journal build st0071_2 (v2.0.0): e(depvar) = "<treated eq>
+    *      <untreated eq> <treatvar>", ancillary lns1 lns2 r1 r2 with index
+    *      1 = treated regime, selection equation named after the treatment
+    *      variable, regime equations <y>_1 and <y>_0;
+    *  (b) later build: e(depvar) = "<untreated eq> <treated eq> select",
+    *      ancillary lns0 lns1 r0 r1, regime equations <y>0 and <y>1.
     local cfn : colfullnames e(b)
+    local sjnames = (strpos(" `cfn' ", " lns2:_cons ") > 0)
+    if (`sjnames') {
+        local eq1 : word 1 of `depv'
+        local eq0 : word 2 of `depv'
+    }
+    else {
+        local eq0 : word 1 of `depv'
+        local eq1 : word 2 of `depv'
+    }
+    local selname select
+    if (strpos(" `cfn' ", " select:") == 0) local selname : word 3 of `depv'
+    * e(depvar) re-ordered as "<untreated eq> <treated eq> <selection eq>"
+    local depv "`eq0' `eq1' `selname'"
+
+    * variable lists of the three equations, from the column names of e(b)
     local xlist
     local zlist
     foreach nm of local cfn {
         gettoken eqn vn : nm, parse(":")
         local vn = substr("`vn'", 2, .)
         if ("`vn'" == "_cons" | "`vn'" == "") continue
-        if ("`eqn'" == "`eq0'")    local xlist `xlist' `vn'
-        if ("`eqn'" == "select")   local zlist `zlist' `vn'
+        if ("`eqn'" == "`eq0'")      local xlist `xlist' `vn'
+        if ("`eqn'" == "`selname'")  local zlist `zlist' `vn'
     }
-    * outcome variable: movestay names the regime equations <depvar>0 / <depvar>1
+    * outcome variable: regime equations are named <depvar>0/<depvar>1 (b)
+    * or <depvar>_0/<depvar>_1 (a); a user-specified depvar() overrides
     local yvar "`depvar'"
     if ("`yvar'" == "") {
-        local yvar = substr("`eq0'", 1, length("`eq0'") - 1)
+        if (substr("`eq0'", -2, 2) == "_0") local yvar = substr("`eq0'", 1, length("`eq0'") - 2)
+        else                                local yvar = substr("`eq0'", 1, length("`eq0'") - 1)
         capture confirm numeric variable `yvar'
         if (_rc) local yvar
     }
@@ -630,14 +655,28 @@ program define _msat_eff, rclass
     local treat `varlist'
 
     tempname TMP s0 s1 r0 r1 B0 B1 G
+    local cn : colfullnames `b'
     if ("`ts'" == "") {
-        matrix `TMP' = `b'[1,"lns0:_cons"]
+        if (strpos(" `cn' ", " lns2:_cons ") > 0) {
+            * Stata Journal build: index 1 = treated, 2 = untreated
+            local n_s0 lns2
+            local n_s1 lns1
+            local n_r0 r2
+            local n_r1 r1
+        }
+        else {
+            local n_s0 lns0
+            local n_s1 lns1
+            local n_r0 r0
+            local n_r1 r1
+        }
+        matrix `TMP' = `b'[1,"`n_s0':_cons"]
         scalar `s0' = exp(`TMP'[1,1])
-        matrix `TMP' = `b'[1,"lns1:_cons"]
+        matrix `TMP' = `b'[1,"`n_s1':_cons"]
         scalar `s1' = exp(`TMP'[1,1])
-        matrix `TMP' = `b'[1,"r0:_cons"]
+        matrix `TMP' = `b'[1,"`n_r0':_cons"]
         scalar `r0' = tanh(`TMP'[1,1])
-        matrix `TMP' = `b'[1,"r1:_cons"]
+        matrix `TMP' = `b'[1,"`n_r1':_cons"]
         scalar `r1' = tanh(`TMP'[1,1])
     }
     else {
@@ -650,12 +689,16 @@ program define _msat_eff, rclass
         scalar `s1' = 1
     }
 
-    * movestay: e(depvar) = "eq0 eq1 select" ; eq0 = regime 0 (untreated)
+    * depvar() = "eq0 eq1 seleq" as re-ordered by msat: eq0 = regime 0
+    * (untreated), eq1 = regime 1, seleq = name of the selection equation
+    * (the two-step vector always names it "select")
     local y0 : word 1 of `depvar'
     local y1 : word 2 of `depvar'
+    local ys : word 3 of `depvar'
+    if (strpos(" `cn' ", " select:") > 0) local ys select
     matrix `B0' = `b'[1,"`y0':"]
     matrix `B1' = `b'[1,"`y1':"]
-    matrix `G'  = `b'[1,"select:"]
+    matrix `G'  = `b'[1,"`ys':"]
 
     tempvar xb0 xb1 zg l1 l0
     qui matrix score double `xb0' = `B0' if `touse'
