@@ -19,7 +19,7 @@ keywords:
   - percentile weights regression
 references:
   - type: report
-    title: "Treatment Effects after Endogenous Switching Regression: the msat Command"
+    title: "Treatment Effects after Endogenous Switching Regression: the msat Postestimation Command"
     authors:
       - family-names: Araar
         given-names: Abdelkrim
@@ -33,7 +33,8 @@ references:
       - family-names: Araar
         given-names: Abdelkrim
     year: 2026
-    notes: "Working paper, first draft, September 2026"
+    doi: 10.5281/zenodo.22672713
+    notes: "Working paper, September 2026"
   - type: software
     title: "Exploring Heterogeneous Effects: Quantile Models and Percentile Weights Regression (gepwreg)"
     authors:
