@@ -64,11 +64,13 @@ bootstrap att=r(att) atu=r(atu) ate=r(ate) kappa=r(kappa), reps(200): ///
 
 ## Citation
 
-Araar, A. (2026). *Treatment Effects after Endogenous Switching Regression: the msat Command.* PEP technical note (msat_note.pdf in this repository). Software: https://github.com/aabbdd12/msat.
+Araar, A. (2026). *Treatment Effects after Endogenous Switching Regression: the msat Postestimation Command.* PEP technical note (msat_note.pdf in this repository). Software: https://github.com/aabbdd12/msat.
 
 The semiparametric engine implements the percentile-weights regression of Araar, A. (2026), *Exploring Heterogeneous Effects: Quantile Models and Percentile Weights Regression*, Zenodo, https://doi.org/10.5281/zenodo.20315684 (Stata command `gepwreg`).
 
 ## References
+
+Araar, A. (2026). Estimating Treatment Effects under Selection on Gains: Models, Assumptions, and Policy Implications. Zenodo, https://doi.org/10.5281/zenodo.22672713 (the companion paper).
 
 Lokshin, M., and Z. Sajaia (2004). Maximum likelihood estimation of endogenous switching regression models. *Stata Journal* 4(3): 282–289.
 
